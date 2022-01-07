@@ -1,0 +1,43 @@
+//INSTALAR NMAP 
+sudo apt install nmap 
+//PUERTOS DE ehu.eus
+nmap ehu.eus
+//MÁQUINAS ACTIVAS DESDE TU MÁQUINA A ehu.eus
+sudo nmap euh.eus --traceroute
+//PUERTOS ABIERTOS DE UNA MÁQUINA ACTIVA
+nmap IP_PUERTO_ACTIVO
+//VERSIONES DE SERVICIOS ACTIVOS DE LA RED (apache...)
+sudo nmap -sV -v ehu.eus
+//SISTEMA OPERATIVO DE UNA DE LAS MÁQUINAS ACTIVAS (OS -> Linux)
+sudo nmap -O IP_PUERTO
+//SISTEMA OPERATIVO DEL SERVIDOR DE GOOGLE CLOUD
+sudo nmap -O IP_EXTERNA
+//VULNERAVILIDADES DE scanme.nmap.org
+nmap --script vulners -sV scanme.nmap.org
+//CÓMO DETECTAR SI TIENE FIREWALL (Not shown:944 -> Significa que el puerto 944 tiene firewall)
+nmap ehu.eus
+
+//IPTABLES 
+sudo iptables-save > /home/lsi/fichero
+sudo iptables-restore < /home/lsi/fichero
+//1.QUE EL SERVIDOR DE GOOGLE CLOUD SÓLO HACEPTE CONEXIONES SSH DESDE MI MÁQUINA LOCAL 
+//Conseguir la IP local 
+ipconfig
+//Conexión a google cloud e intslar iptables
+ssh lsi@IP_EXTERNA
+sudo apt-get install iptables
+//Denegar todo
+sudo iptables -P INPUT DROP 
+sudo iptables -P OUTPUT DROP 
+sudo iptables -P FORWARD DROP 
+//Aceptar input, output y máquina local 
+sudo iptables -A INPUT -i lo -j ACCEPT 
+sudo iptables -A OUTPUT -i lo -j ACCEPT
+sudo iptables -A INPUT -s IP_LOCAL -p tcp --dport 22 -j ACCEPT
+//2.INSTALAR FTP EN EL SERVIDOR DE GOOGLE CLOUD Y HACER QUE SÓLO ACEPTE CONEXIONES DESDE ehu.eus
+sudo apt-get install vsfpd
+sudo iptables -A INPUT -s ehu.eus -p tcp --dport 22 -j ACCEPT
+//3.HACER QUE EL SERVIDOR DE GOOGLE CLOUD SÓLO ACEPTE CONEXIONES HTTPS 
+sudo iptables -A INPUT -o eth0 -p tcp --dport 443 --sport 1024:65535 -j ACCEPT
+//4.HACER QUE EL SERVIDOR DE GOOGLE CLOUD NO SE PUEDA CONECTAR A YOUTUBE 
+iptables -A OUTPUT -p tcp -m string --string "youtube.com" --algo kmp -j REJECT
