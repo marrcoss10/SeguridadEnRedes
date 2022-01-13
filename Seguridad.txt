@@ -36,11 +36,11 @@ sudo iptables -P FORWARD DROP
 //Aceptar input, output y máquina local 
 sudo iptables -A INPUT -i lo -j ACCEPT 
 sudo iptables -A OUTPUT -i lo -j ACCEPT
-sudo iptables -A INPUT -s IP_LOCAL -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -i IP_LOCAL -p tcp --dport 22 -j ACCEPT
 //2.INSTALAR FTP EN EL SERVIDOR DE GOOGLE CLOUD Y HACER QUE SÓLO ACEPTE CONEXIONES DESDE ehu.eus
 sudo apt-get install vsfpd
 sudo iptables -A INPUT -s ehu.eus -p tcp --dport 22 -j ACCEPT
 //3.HACER QUE EL SERVIDOR DE GOOGLE CLOUD SÓLO ACEPTE CONEXIONES HTTPS 
-sudo iptables -A INPUT -o eth0 -p tcp --dport 443 --sport 1024:65535 -j ACCEPT
+sudo iptables -A INPUT -i eth0 -p tcp --dport 443 --sport 1024:65535 -j ACCEPT
 //4.HACER QUE EL SERVIDOR DE GOOGLE CLOUD NO SE PUEDA CONECTAR A YOUTUBE 
-iptables -A OUTPUT -p tcp -m string --string "youtube.com" --algo kmp -j REJECT
+iptables -A OUTPUT -o tcp -m string --string "youtube.com" --algo kmp -j REJECT
