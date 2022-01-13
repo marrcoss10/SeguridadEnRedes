@@ -1,5 +1,5 @@
 //NMAP --> https://www.stationx.net/nmap-cheat-sheet/
-//IPTABLES --> 
+//IPTABLES --> https://www.ionos.es/digitalguide/servidores/herramientas/iptables-conoce-las-reglas-para-crear-paquetes-de-datos/
 
 //INSTALAR NMAP 
 sudo apt install nmap 
