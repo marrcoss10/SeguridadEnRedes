@@ -22,7 +22,7 @@ sudo iptables-save > /home/lsi/fichero
 sudo iptables-restore < /home/lsi/fichero
 //1.QUE EL SERVIDOR DE GOOGLE CLOUD SÓLO HACEPTE CONEXIONES SSH DESDE MI MÁQUINA LOCAL 
 //Conseguir la IP local 
-ipconfig
+ifconfig
 //Conexión a google cloud e intslar iptables
 ssh lsi@IP_EXTERNA
 sudo apt-get install iptables
